@@ -1,0 +1,44 @@
+version: '3.7'
+
+services:
+
+  mongodb:
+    container_name: mongodb
+    restart: always
+    image: mongo:4.4.5-bionic
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=meerkat
+      - MONGO_INITDB_ROOT_PASSWORD=123456
+      
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      - ME_CONFIG_BASICAUTH_USERNAME=iron
+      - ME_CONFIG_BASICAUTH_PASSWORD=123456
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=meerkat
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=123456
+    depends_on:
+      - mongodb
+
+  django:
+    container_name: django
+    restart: always
+    command: python manage.py runserver 0.0.0.0:8000
+    build: ./backend
+    volumes:
+      - ./backend:/usr/src/app
+    ports:
+      - 8000:8000
+    env_file:
+      - .env
+    depends_on:
+      - mongodb
+
+volumes:
+  mongo_data:

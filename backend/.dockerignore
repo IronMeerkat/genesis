@@ -1,0 +1,12 @@
+*/node_modules
+build
+.dockerignore
+Dockerfile
+.vscode
+*.log
+*.pot
+*.pyc
+__pycache__/
+venv/*
+docker-compose.yml
+docker-compose.prod.yml

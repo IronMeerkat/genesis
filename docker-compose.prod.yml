@@ -1,0 +1,42 @@
+version: '3.7'
+
+services:
+
+  mongodb:
+    container_name: mongodb
+    restart: always
+    image: mongo:4.4.5-bionic
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=meerkat
+      - MONGO_INITDB_ROOT_PASSWORD=123456
+
+  django:
+    container_name: django
+    build: .
+    command: gunicorn messagebox.wsgi:application --workers=4 --bind unix:/usr/src/app/messagebox/app.sock
+    volumes:
+      - sock:/usr/src/app/messagebox
+      - static:/usr/src/app/static
+    env_file:
+      - ./.env
+    depends_on:
+      - mongodb
+
+  nginx:
+    container_name: nginx
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - sock:/home/nginx/messagebox
+      - static:/home/nginx/static/static
+    depends_on:
+      - django
+
+volumes:
+  mongo_data:
+  sock:
+  static:
