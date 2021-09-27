@@ -24,6 +24,8 @@ services:
       - static:/home/nginx/static/static
     depends_on:
       - django
+    env_file:
+      - ./.env
 
 volumes:
   sock:
