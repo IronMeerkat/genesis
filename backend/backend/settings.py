@@ -13,7 +13,9 @@ import json
 import os
 from pathlib import Path
 from datetime import timedelta
+from corsheaders.defaults import default_headers
 import djongo
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,9 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'api',
     'corsheaders',
-    'simple_history'
+    'simple_history',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -97,11 +99,15 @@ ROOT_URLCONF = 'backend.urls'
 
 CSRF_TRUSTED_ORIGINS = json.loads(os.environ.get('CSRF_TRUSTED_ORIGINS', '["127.0.0.1", "localhost"]'))
 
-# CORS_ALLOWED_ORIGINS = json.loads(os.environ.get('CORS_ALLOWED_ORIGINS', ["http://127.0.0.1:8000", "http://localhost:8000"]))
+CORS_ALLOWED_ORIGINS = json.loads(os.environ.get('CORS_ALLOWED_ORIGINS', '["http://127.0.0.1:8000", "http://localhost:8000", "http://localhost:3000", "http://127.0.0.1:3000"]'))
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_METHODS = list(default_headers) + [
+    "X-Real-IP",
+    "X-Forwarded-For",
+    "X-Forwarded-Proto"
+]
 
-CORS_ALLOW_HEADERS = '*'
+# CORS_ALLOW_HEADERS = '*'
 
 ALLOWED_HOSTS = json.loads(os.environ.get('ALLOWED_HOSTS', '["127.0.0.1", "localhost"]'))
 

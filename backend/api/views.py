@@ -8,13 +8,14 @@ from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, ListMode
 from django.contrib.auth.models import User
 from api.serializers import MessageSerializer, UserSerializer
 from api.models import Message
+from boilerplate.views import APIView
 from djongo.models import Q
 
 
 # Create your views here.
 
 
-class MessageView(CreateModelMixin, RetrieveModelMixin, ListModelMixin, DestroyModelMixin, generics.GenericAPIView):
+class MessageView(APIView):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
 
@@ -70,7 +71,7 @@ class MessageView(CreateModelMixin, RetrieveModelMixin, ListModelMixin, DestroyM
         return Response(status=204)
 
 
-class UserView(CreateModelMixin, RetrieveModelMixin, ListModelMixin, DestroyModelMixin, generics.GenericAPIView):
+class UserView(APIView):
 
     """
     Allows for the creating and the viewing of users. 

@@ -48,7 +48,7 @@ Thumbs.db
 *.wmv
 
 /venv/
-/.env
+/.env*
 
 migrations
 

@@ -66,8 +66,8 @@ const SignupPage = () => {
             <FormGroup>
                 <FormControl><InputLabel htmlFor="username">Username: </InputLabel><Input error={usernameError} required id="username" placeholder='meerkat' onChange={e => setUsername(e.target.value)}/></FormControl>
                 <FormControl><InputLabel htmlFor="email">Email: </InputLabel><Input error={emailError} required id="email" placeholder='example@domain.com' onChange={e => setEmail(e.target.value)}/></FormControl>
-                <FormControl><InputLabel htmlFor="pass">Password: </InputLabel><Input error={passwordError} required id="pass" placeholder='********' onChange={e => setPassword(e.target.value)}/></FormControl>
-                <FormControl><InputLabel htmlFor="pass2">Password again: </InputLabel><Input error={passwordError} required id="pass2" placeholder='********' onChange={e => setPass2(e.target.value)}/></FormControl>
+                <FormControl><InputLabel htmlFor="pass">Password: </InputLabel><Input error={passwordError} required id="pass" type="password" placeholder='********' onChange={e => setPassword(e.target.value)}/></FormControl>
+                <FormControl><InputLabel htmlFor="pass2">Password again: </InputLabel><Input error={passwordError} required id="pass2" type="password" placeholder='********' onChange={e => setPass2(e.target.value)}/></FormControl>
                     <br/><br/>
                 <Button variant="contained" color="primary" onClick={dispatch}>Sign up</Button>
                     <br/><br/><br/><br/>

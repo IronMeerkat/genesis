@@ -13,7 +13,7 @@ type Params = {
     logout: () => void;
 }
 
-axios.defaults.baseURL = 'http://localhost:8000/api'
+axios.defaults.baseURL = process.env.REACT_APP_API_URL
 const defaultHeaders = {
   /**
    * Headers you always need to send
@@ -21,9 +21,6 @@ const defaultHeaders = {
    * change the access-control headers as needed
    */
   'Content-Type': 'application/json',
-  'Access-Control-Allow-Headers': '*',
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Credentials': 'true'
 }
 
 
