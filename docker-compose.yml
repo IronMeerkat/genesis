@@ -40,5 +40,23 @@ services:
     depends_on:
       - mongodb
 
+  react:
+    container_name: react
+    restart: always
+    build:
+      target: starter
+      context: ./frontend
+    command: yarn start
+    volumes:
+      - ./frontend/src:/usr/src/app/src
+    ports:
+      - 3000:3000
+    env_file:
+      - .env
+    depends_on:
+      - mongodb
+      - django
+
+
 volumes:
   mongo_data:

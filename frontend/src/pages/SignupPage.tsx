@@ -32,7 +32,7 @@ const SignupPage = () => {
         /** 
          * Every field has a state, and typing a string into the field will set the state to that string.
          * Upon clicking the login button, the new user information will be sent to the server. 
-         * In the near future, it will automatically log in the new user as well
+         * It automatically logs in the new user and routes them to /
          * If unsuccessful, the offending field's error status will be set to true
          */
         setEmailError(false)
