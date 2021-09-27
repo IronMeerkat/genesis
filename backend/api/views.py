@@ -71,6 +71,11 @@ class MessageView(CreateModelMixin, RetrieveModelMixin, ListModelMixin, DestroyM
 
 
 class UserView(CreateModelMixin, RetrieveModelMixin, ListModelMixin, DestroyModelMixin, generics.GenericAPIView):
+
+    """
+    Allows for the creating and the viewing of users. 
+    It's highly reccomended you create your own permission management and User model.
+    """
     
     permission_classes = [AllowAny]
 
@@ -78,10 +83,17 @@ class UserView(CreateModelMixin, RetrieveModelMixin, ListModelMixin, DestroyMode
     serializer_class = UserSerializer
 
     def get(self, request, *args, **kwargs):
+        """
+        Takes a blank GET request from the front end and returns the current user's details 
+        (as specified in the serializer_class)
+        """
         serializer = self.get_serializer(request.user)
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
+        """Takes a POST request from the front end with the username, email, and password
+            Upon success, it creates a new user and returns a 201 response
+        """
         user = User(
             username=request.data['username']
         )

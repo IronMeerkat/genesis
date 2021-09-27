@@ -1,14 +1,17 @@
 import React, {useEffect, useState} from "react";
 import {Container, FormControl, FormGroup, Input, Button, InputLabel} from "@mui/material";
 import axios from 'axios'
-import { useThemeContext } from '../components';
+import { useLoginContext } from '../components';
 
 
 const SignupPage = () => {
 
-    const {access, refresh, login, logout} = useThemeContext()
+    const {access, refresh, login, logout} = useLoginContext()
 
     useEffect(()=>{
+        /**
+         * Send the user to / if they're logged in
+         */
         if(access){
             window.location.href = '/';
         }
@@ -25,6 +28,13 @@ const SignupPage = () => {
     const [passwordError, setPassError] = useState(false)
 
     const dispatch = async () => {
+
+        /** 
+         * Every field has a state, and typing a string into the field will set the state to that string.
+         * Upon clicking the login button, the new user information will be sent to the server. 
+         * In the near future, it will automatically log in the new user as well
+         * If unsuccessful, the offending field's error status will be set to true
+         */
         setEmailError(false)
         setUsernameError(false)
         setPassError(false)
@@ -36,7 +46,7 @@ const SignupPage = () => {
         const payload = {username: username, email: email, password: password}
         console.log(axios.defaults.headers)
         
-        await axios.post('/users/', JSON.stringify(payload)) //TODO create a user via the SimpleJWT package or independently?
+        await axios.post('/users/', JSON.stringify(payload)) 
             .then(() => {
                 console.log(payload)
                 login(username, password)

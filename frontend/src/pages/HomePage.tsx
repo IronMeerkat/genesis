@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
 import axios from "axios";
 import {Container} from "@mui/material";
-import { useThemeContext } from '../components';
+import { useLoginContext } from '../components';
 
 const HomePage = () => {
 
+    /**
+     * Generic homepage
+     */
 
 
     return (

@@ -1,6 +1,6 @@
-import React, { Component, FC, ReactNode, ReactChild, useContext, useEffect, useLayoutEffect } from 'react';
-import { Route, Redirect, RouteProps } from 'react-router-dom';
-import { Context, useThemeContext } from '.';
+import { FC, ReactNode,useEffect } from 'react';
+import { Route, Redirect } from 'react-router-dom';
+import { useLoginContext } from '.';
 
 
 type Props = {
@@ -10,7 +10,13 @@ type Props = {
 
 const PrivateRoute: FC<Props> = props => {
 
-    const {access, refresh, login, logout} = useThemeContext()
+    const {access, refresh, login, logout} = useLoginContext()
+
+    /**
+     * Simple override of react-router-dom's Route component
+     * Check's for the presence of an access token. 
+     * If one is present, it acts as a regular Route, otherwise it redirects to /login
+     */
 
 
     useEffect(() => {

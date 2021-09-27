@@ -9,16 +9,27 @@ from django.contrib.auth.models import User
 
 
 class SoftDeletionQuerySet(models.QuerySet):
+
+    """Removes soft-deleted instances from further typical querysets 
+    """
     def delete(self):
+        """Soft delete the following instance. It will no longer show up unless "dead" is specified"
+        """
         return super(SoftDeletionQuerySet, self).update(deleted_at=datetime.datetime.now())
 
     def hard_delete(self):
+        """True deletion of the instance, removes it from the database
+        """
         return super(SoftDeletionQuerySet, self).delete()
 
     def alive(self):
+        """Retrieves the non-deleted instances
+        """
         return self.filter(deleted_at=None)
 
     def dead(self):
+        """Retrieves the soft-deleted instances
+        """
         return self.exclude(deleted_at=None)
 
 
@@ -37,6 +48,9 @@ class SoftDeletionManager(models.DjongoManager):
 
 
 class Model(models.Model):
+    """Model meant to work with both the soft deletion Classes and the simple_history package
+    """
+
     deleted_at = models.DateTimeField(blank=True, null=True, default=None)
 
     objects = SoftDeletionManager()

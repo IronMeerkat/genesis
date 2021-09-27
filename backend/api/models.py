@@ -4,6 +4,9 @@ from djongo import models
 
 class Message(Model):
 
+    """Relatively generic model with two owners
+    """
+
     sender = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=False, related_name='sender')
     recepient = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=False, related_name='recepient')
 

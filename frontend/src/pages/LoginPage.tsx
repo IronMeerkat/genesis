@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
 import {Container, FormControl, FormGroup, Input, Button, InputLabel} from "@mui/material";
 
-import { useThemeContext } from '../components';
+import { useLoginContext } from '../components';
 
 const LoginPage = () => {
 
-    const {access, refresh, login, logout} = useThemeContext()
+    const {access, refresh, login, logout} = useLoginContext()
 
     useEffect(()=>{
+        /**
+         * Send the user to / if they're logged in
+         */
         if(access){
             window.location.href = '/';
         }
@@ -19,6 +22,11 @@ const LoginPage = () => {
     const [authError, setAuthError] = useState(false)
 
     const dispatch = async () => {
+        /** 
+         * Every field has a state, and typing a string into the field will set the state to that string.
+         * Upon clicking the login button, the credentials will be sent to the server. 
+         * If authenticated, the user will be routed to the homepage, otherwise the authError state will set to true
+         */
         setAuthError(false)
         await login(username, password)
             .catch(error => {

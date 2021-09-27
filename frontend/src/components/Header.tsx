@@ -1,4 +1,4 @@
-import { useThemeContext } from "."
+import { useLoginContext } from "."
 import axios from "axios";
 import {AppBar, Toolbar, IconButton, Typography, Button} from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
@@ -8,7 +8,13 @@ import { useEffect, useState } from "react";
 
 const Header = () => {
 
-    const {access, refresh, login, logout} = useThemeContext()
+    /**
+     * Toolbar that will show up on top of the app, regarless which page is open
+     * Default is the Basic App Bar
+     * Further documentation https://mui.com/components/app-bar/
+     */
+
+    const {access, refresh, login, logout} = useLoginContext()
     const [username, setUsername] = useState<string>()
 
     const getUsername = async () => {
@@ -28,8 +34,9 @@ const Header = () => {
 
     return (
 
-    
-            <AppBar position="sticky">
+            
+            <AppBar position="sticky"> 
+            {/* Keep position=sticky to avoid overlapping components */}
                 <Toolbar>
                 <IconButton
                     size="large"
