@@ -99,15 +99,18 @@ ROOT_URLCONF = 'backend.urls'
 
 CSRF_TRUSTED_ORIGINS = json.loads(os.environ.get('CSRF_TRUSTED_ORIGINS', '["127.0.0.1", "localhost"]'))
 
-CORS_ALLOWED_ORIGINS = json.loads(os.environ.get('CORS_ALLOWED_ORIGINS', '["http://127.0.0.1:8000", "http://localhost:8000", "http://localhost:3000", "http://127.0.0.1:3000"]'))
+CORS_ALLOW_ALL_ORIGINS = bool(json.loads(os.environ.get('CORS_ALLOW_ALL_ORIGINS', 0)))
 
-CORS_ALLOW_METHODS = list(default_headers) + [
+if not CORS_ALLOW_ALL_ORIGINS:
+    CORS_ALLOWED_ORIGINS = json.loads(os.environ.get('CORS_ALLOWED_ORIGINS', None))
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
     "X-Real-IP",
     "X-Forwarded-For",
     "X-Forwarded-Proto"
 ]
 
-# CORS_ALLOW_HEADERS = '*'
+
 
 ALLOWED_HOSTS = json.loads(os.environ.get('ALLOWED_HOSTS', '["127.0.0.1", "localhost"]'))
 
