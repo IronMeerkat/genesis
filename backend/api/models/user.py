@@ -3,11 +3,13 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin, UserManager
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.core.mail import send_mail
-from .utils import Model, SoftDeletionManager
+from .utils import Model, ModelManager
 from djongo import models
 from django.utils.translation import gettext_lazy as _
 
-class GenesisUserManager(SoftDeletionManager, UserManager):
+class GenesisUserManager(ModelManager, UserManager):
+    """
+    This class just combines the functonalities of Genesis's model manager and the standard django UserManager """
     pass
 
 

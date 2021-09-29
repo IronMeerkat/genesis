@@ -9,4 +9,6 @@ class APIView(mixins.RetrieveModelMixin,
               mixins.UpdateModelMixin,
               mixins.DestroyModelMixin,
               generics.GenericAPIView):
+    """
+    Aggregates all the mixin classes"""
     pass

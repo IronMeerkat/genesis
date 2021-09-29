@@ -2,19 +2,19 @@ import datetime
 from simple_history.models import HistoricalRecords
 from djongo import models
 
-class SoftDeletionQuerySet(models.QuerySet):
+class QuerySet(models.QuerySet):
 
     """Removes soft-deleted instances from further typical querysets 
     """
     def delete(self):
         """Soft delete the following instance. It will no longer show up unless "dead" is specified"
         """
-        return super(SoftDeletionQuerySet, self).update(deleted_at=datetime.datetime.now())
+        return super(QuerySet, self).update(deleted_at=datetime.datetime.now())
 
     def hard_delete(self):
         """True deletion of the instance, removes it from the database
         """
-        return super(SoftDeletionQuerySet, self).delete()
+        return super(QuerySet, self).delete()
 
     def alive(self):
         """Retrieves the non-deleted instances
@@ -27,27 +27,28 @@ class SoftDeletionQuerySet(models.QuerySet):
         return self.exclude(deleted_at=None)
 
 
-class SoftDeletionManager(models.DjongoManager):
+class ModelManager(models.DjongoManager):
     def __init__(self, *args, **kwargs):
         self.alive_only = kwargs.pop('alive_only', True)
-        super(SoftDeletionManager, self).__init__(*args, **kwargs)
+        super(ModelManager, self).__init__(*args, **kwargs)
 
     def get_queryset(self):
         if self.alive_only:
-            return SoftDeletionQuerySet(self.model).filter(deleted_at=None)
-        return SoftDeletionQuerySet(self.model)
+            return QuerySet(self.model).filter(deleted_at=None)
+        return QuerySet(self.model)
 
     def hard_delete(self):
         return self.get_queryset().hard_delete()
 
 class Model(models.Model):
-    """Model meant to work with both the soft deletion Classes and the simple_history package
     """
+    Model meant to work with both the soft deletion Classes and the simple_history package.
+    Adds a numerical id, as opposed to the string-type id MongoDB uses"""
 
     deleted_at = models.DateTimeField(blank=True, null=True, default=None)
 
-    objects = SoftDeletionManager()
-    all_objects = SoftDeletionManager(alive_only=False)
+    objects = ModelManager()
+    all_objects = ModelManager(alive_only=False)
     history = HistoricalRecords(inherit=True)
 
     id = models.BigAutoField(primary_key=True)

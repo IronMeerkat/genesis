@@ -65,9 +65,8 @@ class MessageView(APIView):
 
     def delete(self, request, *args, **kwargs):
         """
-        Append the URL with the message's id and call DELETE. The user will be added to the message instance's
-        'deleted' field.
-        """
+        Append the URL with the message's id and call DELETE. The user will be added to the message instance's 'deleted' field.
+        Note that this does not use the soft deletion feature"""
         message = self.get_object()
         message.deleted.add(self.request.user)
         return Response(status=204)

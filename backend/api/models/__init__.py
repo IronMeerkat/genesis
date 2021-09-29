@@ -19,5 +19,3 @@ class Message(Model):
 
     read = models.ArrayReferenceField(to=User, related_name='has_read', null=True)
     deleted = models.ArrayReferenceField(to=User, related_name='has_deleted', null=True)
-
-# __all__ = [ Message, User]
