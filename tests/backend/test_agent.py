@@ -14,7 +14,7 @@ class TestAgent:
         if username is not None and password is not None:
             granted = requests.post(url=root_url + '/auth/token/', json={"username": username, "password": password}, headers=headers)
 
-            assert granted.status_code <= 299, 'not authorized'
+            assert granted.status_code <= 299, f'not authorized, code {granted.status_code}'
 
             self.headers = {**headers, 'Authorization': 'Bearer ' + granted.json()['access']}
         elif username is None and password is None:

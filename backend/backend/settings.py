@@ -97,12 +97,12 @@ LOGGING = {
 
 ROOT_URLCONF = 'backend.urls'
 
-CSRF_TRUSTED_ORIGINS = json.loads(os.environ.get('CSRF_TRUSTED_ORIGINS', '["127.0.0.1", "localhost"]'))
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', ["127.0.0.1", "localhost"])
 
-CORS_ALLOW_ALL_ORIGINS = bool(json.loads(os.environ.get('CORS_ALLOW_ALL_ORIGINS', 0)))
+CORS_ALLOW_ALL_ORIGINS = bool(os.environ.get('CORS_ALLOW_ALL_ORIGINS', 0))
 
 if not CORS_ALLOW_ALL_ORIGINS:
-    CORS_ALLOWED_ORIGINS = json.loads(os.environ.get('CORS_ALLOWED_ORIGINS', None))
+    CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', None)
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
     "X-Real-IP",
@@ -222,5 +222,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+
+AUTH_USER_MODEL = 'api.User'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

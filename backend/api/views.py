@@ -5,9 +5,8 @@ from rest_framework import generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, ListModelMixin, UpdateModelMixin ,DestroyModelMixin
-from django.contrib.auth.models import User
 from api.serializers import MessageSerializer, UserSerializer
-from api.models import Message
+from api.models import Message, User
 from boilerplate.views import APIView
 from djongo.models import Q
 
@@ -44,8 +43,11 @@ class MessageView(APIView):
             self.queryset = self.filter_queryset(self.get_queryset().filter(
                 Q(recepient=self.request.user) & ~Q(read=request.user) & ~Q(deleted=request.user)))
             #   Default GET operation. User's incoming mail, excluding read and deleted messages.
-        else:
-            self.queryset = self.get_queryset().filter(**{kwargs.get('mode'): self.request.user})
+        elif kwargs.get('mode') == 'deleted':
+            self.queryset = self.get_queryset().filter(deleted=self.request.user)
+        else: 
+            self.queryset = self.get_queryset().filter(**{kwargs.get('mode'): self.request.user}).exclude(deleted=self.request.user)
+
         return self.list(request, *args, **kwargs)
 
     def post(self, request):
