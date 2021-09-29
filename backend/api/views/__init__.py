@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, ListModelMixin, UpdateModelMixin ,DestroyModelMixin
 from api.serializers import MessageSerializer, UserSerializer
 from api.models import Message, User
-from boilerplate.views import APIView
+from .utils import APIView
 from djongo.models import Q
 
 

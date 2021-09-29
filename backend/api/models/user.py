@@ -1,12 +1,14 @@
 from datetime import timezone, datetime
 from django.contrib.auth.base_user import AbstractBaseUser
-from django.contrib.auth.models import PermissionsMixin
+from django.contrib.auth.models import PermissionsMixin, UserManager
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.core.mail import send_mail
-from boilerplate.models import Model, GenesisUserManager
+from .utils import Model, SoftDeletionManager
 from djongo import models
 from django.utils.translation import gettext_lazy as _
-from simple_history import register
+
+class GenesisUserManager(SoftDeletionManager, UserManager):
+    pass
 
 
 class User(AbstractBaseUser, PermissionsMixin, Model):
@@ -60,20 +62,3 @@ class User(AbstractBaseUser, PermissionsMixin, Model):
     def email_user(self, subject, message, from_email=None, **kwargs):
         """Send an email to this user."""
         send_mail(subject, message, from_email, [self.email], **kwargs)
-
-class Message(Model):
-
-    """Relatively generic model with two owners
-    """
-
-    sender = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=False, related_name='sender')
-    recepient = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=False, related_name='recepient')
-
-    timestamp = models.DateTimeField(auto_now=True)
-
-    title = models.CharField(null=False, max_length=64)
-    body = models.CharField(null=False, max_length=2048)
-
-    read = models.ArrayReferenceField(to=User, related_name='has_read', null=True)
-    deleted = models.ArrayReferenceField(to=User, related_name='has_deleted', null=True)
-

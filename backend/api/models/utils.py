@@ -2,9 +2,6 @@ import datetime
 from simple_history.models import HistoricalRecords
 from djongo import models
 
-
-from django.contrib.auth.models import UserManager
-
 class SoftDeletionQuerySet(models.QuerySet):
 
     """Removes soft-deleted instances from further typical querysets 
@@ -43,9 +40,6 @@ class SoftDeletionManager(models.DjongoManager):
     def hard_delete(self):
         return self.get_queryset().hard_delete()
 
-class GenesisUserManager(SoftDeletionManager, UserManager):
-    pass
-
 class Model(models.Model):
     """Model meant to work with both the soft deletion Classes and the simple_history package
     """
@@ -68,6 +62,3 @@ class Model(models.Model):
         self.deleted_at=None
         self.save()
 
-
-
-# register(User)
